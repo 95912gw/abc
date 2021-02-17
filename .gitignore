@@ -2,7 +2,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/vscode,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=vscode,node
 
-.config/config.json
+.config
 .node_modules
 
 ### Node ###
