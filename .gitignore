@@ -4,6 +4,7 @@
 .DS_Store
 .config
 .node_modules
+.idea
 
 ### Node ###
 # Logs

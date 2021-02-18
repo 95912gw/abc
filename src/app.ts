@@ -1,7 +1,5 @@
 import express, {Express} from 'express';
 import { SignupService } from '../service/user';
-import { noExtendLeft } from 'sequelize/types/lib/operators';
-import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 
 const sequelize = require('../models').sequelize;
 const post = require('../models').Post;
@@ -33,12 +31,12 @@ app.get('/', (req, res, next) => {
     next();
 })
 
-app.get('/posts', async (req, res, next) => {
+app.get('/posts', async (req, res) => {
     const postList = await post.findAll();
     return res.send(postList);
 })
 
-app.post('/posts', async (req, res, next) => {
+app.post('/posts', async (req, res) => {
     const body = req.body;
     const description = body.description;
     const createPost = await post.create({
@@ -47,23 +45,23 @@ app.post('/posts', async (req, res, next) => {
     return res.send(createPost);
 })
 
-app.delete('/posts/:id', async (req, res, next) => {
+app.delete('/posts/:id', async (req, res) => {
     const postID = req.params.id;
-    const deletePost = await post.destroy({
+    await post.destroy({
         where: {postID}
     });
     const postList = await post.findAll();
     return res.send(postList);
 })
 
-app.put('/posts/:id', async (req, res, next) => {
+app.put('/posts/:id', async (req, res) => {
     const postID = req.params.id;
     const body = req.body;
     const description = body.description;
-    const findPost = await post.update({
-      description
+    await post.update({
+        description
     },{
-      where: {id: postID}
+        where: {id: postID}
     });
     const postList = await post.findAll();
     return res.send(postList);
