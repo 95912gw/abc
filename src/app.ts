@@ -8,7 +8,7 @@ const port = 8000;
 
 app.use(express.json());
 
-app.post('/signup', async (req, res, next) => {
+app.post('/signup', async (req, res) => {
     const signupService = new SignupService();
     const signupUser = await signupService.signup(req.body);
     res.status(201).json({
@@ -17,7 +17,7 @@ app.post('/signup', async (req, res, next) => {
       })
 })
 
-app.post('/signin', async (req, res, next) => {
+app.post('/signin', async (req, res) => {
     const signinService = new SignupService();
     const token = await signinService.signin(req.body);
     res.status(200).json({
