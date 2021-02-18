@@ -1,11 +1,32 @@
 import express, {Express} from 'express';
+import { SignupService } from '../service/user';
 import { noExtendLeft } from 'sequelize/types/lib/operators';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 
 const sequelize = require('../models').sequelize;
 const post = require('../models').Post;
 const app: Express = express();
-const port = 3000;
+const port = 8000;
+
 app.use(express.json());
+
+app.post('/signup', async (req, res, next) => {
+    const signupService = new SignupService();
+    const signupUser = await signupService.signup(req.body);
+    res.status(201).json({
+        message: 'User created',
+        userID: `Welcome ${signupUser.userID}`,
+      })
+})
+
+app.post('/signin', async (req, res, next) => {
+    const signinService = new SignupService();
+    const token = await signinService.signin(req.body);
+    res.status(200).json({
+        message: 'User sign in',
+        token,
+    })
+})
 
 app.get('/', (req, res, next) => {
     res.send('Hello World! This is To do List');
@@ -50,6 +71,6 @@ app.put('/posts/:id', async (req, res, next) => {
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
-})
+});
 
 sequelize.sync();
